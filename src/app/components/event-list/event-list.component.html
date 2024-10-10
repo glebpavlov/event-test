@@ -1,0 +1,70 @@
+<div class="wrapper">
+  <!-- Кнопка для добавления нового мероприятия -->
+  <button mat-raised-button color="primary" (click)="toggleAddForm()">Добавить мероприятие</button>
+
+  <!-- Выбор типа мероприятия -->
+  <div *ngIf="showAddForm">
+    <mat-form-field>
+      <mat-label>Тип мероприятия</mat-label>
+      <mat-select [(value)]="selectedEventType">
+        <mat-option value="sport">Спортивное</mat-option>
+        <mat-option value="music">Музыкальное</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <app-sport-event-form *ngIf="selectedEventType === 'sport'" (submitForm)="onEventAdded($event)"></app-sport-event-form>
+    <app-music-event-form *ngIf="selectedEventType === 'music'" (submitForm)="onEventAdded($event)"></app-music-event-form>
+  </div>
+</div>
+
+
+<!-- Таблица для отображения списка мероприятий -->
+<table mat-table [dataSource]="events()" class="mat-elevation-z8">
+  <!-- Название мероприятия -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Название </th>
+    <td mat-cell *matCellDef="let event"> {{event.name}} </td>
+  </ng-container>
+
+  <!-- Описание мероприятия -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Описание </th>
+    <td mat-cell *matCellDef="let event"> {{event.description}} </td>
+  </ng-container>
+
+  <!-- Место проведения -->
+  <ng-container matColumnDef="location">
+    <th mat-header-cell *matHeaderCellDef> Место проведения </th>
+    <td mat-cell *matCellDef="let event"> {{event.location}} </td>
+  </ng-container>
+
+  <!-- Тип мероприятия -->
+  <ng-container matColumnDef="eventType">
+    <th mat-header-cell *matHeaderCellDef> Тип мероприятия </th>
+    <td mat-cell *matCellDef="let event"> {{event.eventType === 'sport' ? 'Спортивное' : 'Музыкальное'}} </td>
+  </ng-container>
+
+  <!-- Количество участников -->
+  <ng-container matColumnDef="participants">
+    <th mat-header-cell *matHeaderCellDef> Количество участников </th>
+    <td mat-cell *matCellDef="let event"> {{event.participants || 'N/A'}} </td>
+  </ng-container>
+
+  <!-- Жанр музыки -->
+  <ng-container matColumnDef="genre">
+    <th mat-header-cell *matHeaderCellDef> Жанр </th>
+    <td mat-cell *matCellDef="let event"> {{event.genre || 'N/A'}} </td>
+  </ng-container>
+
+  <!-- Действия (удаление мероприятия) -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Действия </th>
+    <td mat-cell *matCellDef="let event">
+      <button mat-button color="warn" (click)="deleteEvent(event.id)">Удалить</button>
+    </td>
+  </ng-container>
+
+  <!-- Ряды таблицы -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

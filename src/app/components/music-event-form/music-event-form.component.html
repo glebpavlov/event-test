@@ -1,0 +1,24 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="description" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Место проведения</mat-label>
+    <input matInput formControlName="location" />
+  </mat-form-field>
+
+  <!-- Поле для музыкальных мероприятий -->
+  <mat-form-field>
+    <mat-label>Жанр музыки</mat-label>
+    <input matInput formControlName="genre" />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Добавить</button>
+</form>
